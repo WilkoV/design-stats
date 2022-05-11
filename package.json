@@ -1,0 +1,36 @@
+{
+  "name": "design-stats",
+  "version": "0.1",
+  "description": "Collect statistical data from 3d printing websites like Thingiverse, Cults3d or Printable.",
+  "main": "bin/index.js",
+  "bin": {
+    "design-stats": "bin/index.js",
+    "ds": "bin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WilkoV/design-stats.git"
+  },
+  "keywords": [
+    "3dprinting",
+    "statistics",
+    "thingiverse",
+    "cults3d",
+    "printable"
+  ],
+  "author": "WilkoV",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WilkoV/design-stats/issues"
+  },
+  "homepage": "https://github.com/WilkoV/design-stats#readme",
+  "devDependencies": {
+    "eslint": "^8.15.0"
+  },
+  "dependencies": {
+    "commander": "^9.2.0",
+    "dotenv": "^16.0.1",
+    "node-fetch": "^2.6.7",
+    "ora": "^5.4.1"
+  }
+}
