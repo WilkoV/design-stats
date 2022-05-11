@@ -42,6 +42,15 @@ Create the directory `config` in the projects root and create a file `.env` with
 DS_THINGIVERSE_API_TOKEN=<your-thingiverse-API-key>
 # Design on Thingiverse that could be used by the test command
 DS_THINGIVERSE_TEST_ID=5249332
+
+#
+# Cults3d configuration
+#
+
+# Timeout for fetching details from Cults 3d web site
+DS_CULTS_TIMEOUT=10000
+# Design on Cults 3d that could be used by the test command
+DS_CUTLS_TEST_ID=carafe-01
 ```
 
 ### Install design-stats (ds)
@@ -100,11 +109,10 @@ Usage: ds test [options] [connectionType]
 Test connections to the database and 3d printing sites
 
 Arguments:
-  connectionType             Type of connection to test (choices: "thingiverse-api", default: "all")
+  connectionType             Type of connection to test (choices: "thingiverse-api", "cults3d", "all", default: "all")
 
 Options:
-  -c, --config <configFile>  config file path (default: "config/.env")
-  -h, --help                 display help for command
+  -c, --config <configFile>  config file path (default: "config/.env"
 ```
 
 ### ds test command
