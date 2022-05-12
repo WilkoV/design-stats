@@ -50,7 +50,7 @@ DS_THINGIVERSE_TEST_ID=5249332
 # Timeout for fetching details from Cults 3d web site
 DS_CULTS_TIMEOUT=10000
 # Design on Cults 3d that could be used by the test command
-DS_CUTLS_TEST_ID=carafe-01
+DS_CULTS_TEST_ID=carafe-01
 ```
 
 ### Install design-stats (ds)
@@ -68,6 +68,11 @@ The command `ds` or `design-stats` is now available. The configuration can be te
 ```bash
 # Test connections to the database and to the 3d printing sites used by design-stats
 $ ds test
+# output:
+✔ Configuration loaded
+✔ Thingiverse test connection successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
+✔ Cults3d test connection successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
+✔ Printable test connection successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
 ```
 
 ## Usage
@@ -109,10 +114,12 @@ Usage: ds test [options] [connectionType]
 Test connections to the database and 3d printing sites
 
 Arguments:
-  connectionType             Type of connection to test (choices: "thingiverse-api", "cults3d", "all", default: "all")
+  connectionType             Type of connection to test (choices: "thingiverse-api", "cults3d", "printable", "all", default: "all")
 
 Options:
-  -c, --config <configFile>  config file path (default: "config/.env"
+  -c, --config <configFile>  config file path (default: "config/.env")
+  -h, --help                 display help for command
+
 ```
 
 ### ds test command
@@ -124,12 +131,16 @@ Options:
 $ ds test
 # output:
 ✔ Configuration loaded
-✔ Thingiverse test connection successful: {"id":5249332,"title":"Banana 01","downloads":123,"likes":13}
+✔ Thingiverse test connection successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
+✔ Cults3d test connection successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
+✔ Printable test connection successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
 ```
 
-To test a specific connection use `ds test [connectionType]`. Valid connection types are:
+To test a specific connection the connection type can be added to the command. Valid connection types are:
 
-- `thingiverse-api`: test the connection to the Thingiverse API
+- `thingiverse-api`: test the connection to the Thingiverse API and get the details of a specific design
+- `cults3d`: test the connection to the Cults 3d web site and scrape the details of a specific design
+- `printable`: test the connection to the Cults 3d web site and scrape the details of a specific design
 - `all`: test all connections
 
 ```bash
