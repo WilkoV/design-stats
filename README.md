@@ -40,8 +40,10 @@ Create the directory `config` in the projects root and create a file `.env` with
 
 # Thingiverse API key
 DS_THINGIVERSE_API_TOKEN=<your-thingiverse-API-key>
+# Thingiverse user name
+DS_THINGIVERSE_USERNAME=<your-thingiverse-user-name>
 # Design on Thingiverse that could be used by the test command
-DS_THINGIVERSE_TEST_ID=5249332
+DS_THINGIVERSE_TEST_ID=<your-thingiverse-design-id>
 
 #
 # Cults3d configuration
@@ -50,7 +52,14 @@ DS_THINGIVERSE_TEST_ID=5249332
 # Timeout for fetching details from Cults 3d web site
 DS_CULTS_TIMEOUT=10000
 # Design on Cults 3d that could be used by the test command
-DS_CULTS_TEST_ID=carafe-01
+DS_CULTS_TEST_ID=<your-cults3d-design-id>
+
+#
+# Printable configuration
+#
+
+# Design on Printable that could be used by the test command
+DS_PRINTABLE_TEST_ID=<your-printable-design-id>
 ```
 
 ### Install design-stats (ds)
@@ -70,9 +79,10 @@ The command `ds` or `design-stats` is now available. The configuration can be te
 $ ds test
 # output:
 ✔ Configuration loaded
-✔ Thingiverse test connection successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
-✔ Cults3d test connection successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
-✔ Printable test connection successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
+✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
+✔ Thingiverse test connection for lists successful: Found 165 designs
+✔ Cults3d test connection for details successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
+✔ Printable test connection for details successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
 ```
 
 ## Usage
@@ -114,7 +124,7 @@ Usage: ds test [options] [connectionType]
 Test connections to the database and 3d printing sites
 
 Arguments:
-  connectionType             Type of connection to test (choices: "thingiverse-api", "cults3d", "printable", "all", default: "all")
+  connectionType             Type of connection to test (choices: "thingiverse-api-details", "thingiverse-api-list", "cults3d-details", "printable-details", "all", default: "all")
 
 Options:
   -c, --config <configFile>  config file path (default: "config/.env")
@@ -131,21 +141,23 @@ Options:
 $ ds test
 # output:
 ✔ Configuration loaded
-✔ Thingiverse test connection successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
-✔ Cults3d test connection successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
-✔ Printable test connection successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
+✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
+✔ Thingiverse test connection for lists successful: Found 165 designs
+✔ Cults3d test connection for details successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
+✔ Printable test connection for details successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
 ```
 
 To test a specific connection the connection type can be added to the command. Valid connection types are:
 
-- `thingiverse-api`: test the connection to the Thingiverse API and get the details of a specific design
-- `cults3d`: test the connection to the Cults 3d web site and scrape the details of a specific design
-- `printable`: test the connection to the Cults 3d web site and scrape the details of a specific design
+- `thingiverse-api-details`: test the connection to the Thingiverse API and get the details of a specific design
+- `thingiverse-api-list`: test the connection to the Thingiverse API and get the list of the user's designs
+- `cults3d-details`: test the connection to the Cults 3d web site and scrape the details of a specific design
+- `printable-details`: test the connection to the Cults 3d web site and scrape the details of a specific design
 - `all`: test all connections
 
 ```bash
 # test all connections
-$ ds test thingiverse-api
+$ ds test thingiverse-api-details
 # output:
 ✔ Configuration loaded
 ✔ Thingiverse test connection successful: {"id":5249332,"title":"Banana 01","downloads":123,"likes":13}
