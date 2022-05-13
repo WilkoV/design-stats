@@ -49,17 +49,19 @@ DS_THINGIVERSE_TEST_ID=<your-thingiverse-design-id>
 # Cults3d configuration
 #
 
-# Thingiverse user name
-DS_CULTS_USERNAME=Wilko
-# Timeout for fetching details from Cults 3d web site
+# Cults3d user name
+DS_CULTS_USERNAME=<your-cults3d-user-name>
+# Timeout for fetching details from Cults3d web site
 DS_CULTS_TIMEOUT=10000
-# Design on Cults 3d that could be used by the test command
+# Design on Cults3d that could be used by the test command
 DS_CULTS_TEST_ID=<your-cults3d-design-id>
 
 #
 # Printable configuration
 #
 
+# Printable user id. Goto your about page and copy the id from it. The pattern is: https://www.printables.com/social/<your_user_id>/about
+DS_PRINTABLE_USER_ID=<your-printable-user-id>
 # Design on Printable that could be used by the test command
 DS_PRINTABLE_TEST_ID=<your-printable-design-id>
 ```
@@ -81,11 +83,12 @@ The command `ds` or `design-stats` is now available. The configuration can be te
 $ ds test
 # output:
 ✔ Configuration loaded
-✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
+✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":126,"likes":13}
 ✔ Thingiverse test connection for lists successful: Found 165 designs
 ✔ Cults3d test connection for details successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
 ✔ Cults3d test connection for lists successful: Found 165 designs
 ✔ Printable test connection for details successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
+✔ Printable test connection for lists successful: Found 165 designs
 ```
 
 ## Usage
@@ -127,7 +130,7 @@ Usage: ds test [options] [connectionType]
 Test connections to the database and 3d printing sites
 
 Arguments:
-  connectionType             Type of connection to test (choices: "thingiverse-api-details", "thingiverse-api-list", "cults3d-details", "cults3d-list", "printable-details", "all", default: "all")
+  connectionType             Type of connection to test (choices: "thingiverse-api-details", "thingiverse-api-list", "cults3d-details", "cults3d-list", "printable-details", "printable-list", "all", default: "all")
 
 Options:
   -c, --config <configFile>  config file path (default: "config/.env")
@@ -143,11 +146,12 @@ Options:
 $ ds test
 # output:
 ✔ Configuration loaded
-✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
+✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":126,"likes":13}
 ✔ Thingiverse test connection for lists successful: Found 165 designs
 ✔ Cults3d test connection for details successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
 ✔ Cults3d test connection for lists successful: Found 165 designs
 ✔ Printable test connection for details successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
+✔ Printable test connection for lists successful: Found 165 designs
 ```
 
 To test a specific connection the connection type can be added to the command. Valid connection types are:
@@ -157,6 +161,7 @@ To test a specific connection the connection type can be added to the command. V
 - `cults3d-details`: test the connection to the Cults 3d web site and scrape the details of a specific design
 - `cults3d-list`: test the connection to the Cults 3d web site and scrape the list of user's designs
 - `printable-details`: test the connection to the Cults 3d web site and scrape the details of a specific design
+- `printable-list`: test the connection to the Cults 3d web site and scrape the list of user's designs
 - `all`: test all connections
 
 ```bash
