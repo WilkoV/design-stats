@@ -49,6 +49,8 @@ DS_THINGIVERSE_TEST_ID=<your-thingiverse-design-id>
 # Cults3d configuration
 #
 
+# Thingiverse user name
+DS_CULTS_USERNAME=Wilko
 # Timeout for fetching details from Cults 3d web site
 DS_CULTS_TIMEOUT=10000
 # Design on Cults 3d that could be used by the test command
@@ -82,6 +84,7 @@ $ ds test
 ✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
 ✔ Thingiverse test connection for lists successful: Found 165 designs
 ✔ Cults3d test connection for details successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
+✔ Cults3d test connection for lists successful: Found 165 designs
 ✔ Printable test connection for details successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
 ```
 
@@ -124,12 +127,11 @@ Usage: ds test [options] [connectionType]
 Test connections to the database and 3d printing sites
 
 Arguments:
-  connectionType             Type of connection to test (choices: "thingiverse-api-details", "thingiverse-api-list", "cults3d-details", "printable-details", "all", default: "all")
+  connectionType             Type of connection to test (choices: "thingiverse-api-details", "thingiverse-api-list", "cults3d-details", "cults3d-list", "printable-details", "all", default: "all")
 
 Options:
   -c, --config <configFile>  config file path (default: "config/.env")
   -h, --help                 display help for command
-
 ```
 
 ### ds test command
@@ -144,6 +146,7 @@ $ ds test
 ✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":124,"likes":13}
 ✔ Thingiverse test connection for lists successful: Found 165 designs
 ✔ Cults3d test connection for details successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
+✔ Cults3d test connection for lists successful: Found 165 designs
 ✔ Printable test connection for details successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
 ```
 
@@ -152,6 +155,7 @@ To test a specific connection the connection type can be added to the command. V
 - `thingiverse-api-details`: test the connection to the Thingiverse API and get the details of a specific design
 - `thingiverse-api-list`: test the connection to the Thingiverse API and get the list of the user's designs
 - `cults3d-details`: test the connection to the Cults 3d web site and scrape the details of a specific design
+- `cults3d-list`: test the connection to the Cults 3d web site and scrape the list of user's designs
 - `printable-details`: test the connection to the Cults 3d web site and scrape the details of a specific design
 - `all`: test all connections
 
