@@ -105,3 +105,6 @@ dist
 
 # exclude configuration files
 /config
+
+# exclude the data directory
+/data

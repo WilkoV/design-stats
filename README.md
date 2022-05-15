@@ -13,6 +13,7 @@ Collects statistical data from 3d printing sites like Thingiverse, Cults3d or Pr
     - [List all commands](#list-all-commands)
     - [Get help for a specific command](#get-help-for-a-specific-command)
     - [ds test command](#ds-test-command)
+    - [ds merge-sites command](#ds-merge-sites-command)
 
 ## Installation
 
@@ -81,14 +82,17 @@ The command `ds` or `design-stats` is now available. The configuration can be te
 ```bash
 # Test connections to the database and to the 3d printing sites used by design-stats
 $ ds test
+```
+
+```txt
 # output:
 ✔ Configuration loaded
-✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":126,"likes":13}
-✔ Thingiverse test connection for lists successful: Found 165 designs
-✔ Cults3d test connection for details successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
-✔ Cults3d test connection for lists successful: Found 165 designs
-✔ Printable test connection for details successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
-✔ Printable test connection for lists successful: Found 165 designs
+✔ Thingiverse test connection for details successful: {"source":"Thingiverse","source_id":5249332,"title":"Banana 01","downloads":126,"likes":13}
+✔ Thingiverse test connection for lists successful: Found 165 designs. First design: {"title":"Banana 02","source_id":5250995}
+✔ Cults3d test connection for details successful: {"source":"Cults3d","source_id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
+✔ Cults3d test connection for lists successful: Found 165 designs. First design: {"title":"Banana 02","source":"Cults3d","source_id":"banana-02-wilko"}
+✔ Printable test connection for details successful: {"source":"Printable","source_id":"135167-banana-01","title":"Banana 01","downloads":"22","likes":"4"}
+✔ Printable test connection for lists successful: Found 165 designs. First design: {"title":"Stand for Santa Sleigh & Reindeer Christmas Decoration","source":"Printable","source_id":"184313-stand-for-santa-sleigh-reindeer-christmas-decorati"}
 ```
 
 ## Usage
@@ -102,10 +106,13 @@ After installation the command can be accessed by `design-stats` or `ds`. This d
 ```bash
 # Show help and list of all commands
 $ ds --help
+```
+
+```txt
 # output:
 Usage: ds [options] [command]
 
-Collects statistical data from 3d printing sites
+Collect statistical data from 3d printing sites
 
 Options:
   -V, --version                    output the version number
@@ -113,8 +120,8 @@ Options:
 
 Commands:
   test [options] [connectionType]  Test connections to the database and 3d printing sites
+  merge-sites [options]            Get list of user's Thingiverse designs and match them with designs from cults3d and printable
   help [command]                   display help for command
-
 ```
 
 ### Get help for a specific command
@@ -124,6 +131,9 @@ Commands:
 ```bash
 # Show help message for the test command
 $ ds help test
+```
+
+```txt
 # output
 Usage: ds test [options] [connectionType]
 
@@ -139,19 +149,26 @@ Options:
 
 ### ds test command
 
-`ds test` tests the connections to the database and the 3d printing sites used by design-stats. It can be used to test the configuration file or to quickly verify that the basic api and web scraping functions are working.
+`ds test` tests the connections to the database and the 3d printing sites used by design-stats. It can be used to test the configuration file or to quickly verify that the basic api and web scraping functions are working. By default the command uses the configuration file `config/.env`. This can be changed with the "-c" or "--config" option.
+
+```bash
+
+```bash
 
 ```bash
 # test all connections
 $ ds test
+```
+
+```txt
 # output:
 ✔ Configuration loaded
-✔ Thingiverse test connection for details successful: {"id":5249332,"title":"Banana 01","downloads":126,"likes":13}
-✔ Thingiverse test connection for lists successful: Found 165 designs
-✔ Cults3d test connection for details successful: {"id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
-✔ Cults3d test connection for lists successful: Found 165 designs
-✔ Printable test connection for details successful: {"id":"135167-banana-01","title":"Banana 01","downloads":"21","likes":"4"}
-✔ Printable test connection for lists successful: Found 165 designs
+✔ Thingiverse test connection for details successful: {"source":"Thingiverse","source_id":5249332,"title":"Banana 01","downloads":126,"likes":13}
+✔ Thingiverse test connection for lists successful: Found 165 designs. First design: {"title":"Banana 02","source_id":5250995}
+✔ Cults3d test connection for details successful: {"source":"Cults3d","source_id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
+✔ Cults3d test connection for lists successful: Found 165 designs. First design: {"title":"Banana 02","source":"Cults3d","source_id":"banana-02-wilko"}
+✔ Printable test connection for details successful: {"source":"Printable","source_id":"135167-banana-01","title":"Banana 01","downloads":"22","likes":"4"}
+✔ Printable test connection for lists successful: Found 165 designs. First design: {"title":"Stand for Santa Sleigh & Reindeer Christmas Decoration","source":"Printable","source_id":"184313-stand-for-santa-sleigh-reindeer-christmas-decorati"}
 ```
 
 To test a specific connection the connection type can be added to the command. Valid connection types are:
@@ -167,7 +184,34 @@ To test a specific connection the connection type can be added to the command. V
 ```bash
 # test all connections
 $ ds test thingiverse-api-details
+```
+
+```txt
 # output:
 ✔ Configuration loaded
 ✔ Thingiverse test connection successful: {"id":5249332,"title":"Banana 01","downloads":123,"likes":13}
+```
+
+### ds merge-sites command
+
+`ds merge-sites` merges user's designs from the 3d printing sites by title and writes the result into a file. Assuming the default base director is used it will create up t four files:
+
+- data/export/merged-sites.json
+- data/error/thingiverse-list.json
+- data/error/cults3d-list.json
+- data/error/printable-list.json
+
+ By default the command uses the configuration file `config/.env`. This can be changed with the "-c" or "--config" option. The base directory `data` can be changed with the "-b" or "--baseDirectory" option. The command will still create the subdirectories `export` and `error` in the base directory.
+
+```bash
+ds merge-sites
+```
+
+```txt
+# output:
+✔ Configuration loaded
+✔ User's Thingiverse designs loaded. Found 165 designs
+✔ Designs from Cults3d loaded. Found 165 designs
+✔ Designs from Printable loaded. Found 165 designs
+✔ 165 merged designs written to file data\export\merged-sites.json
 ```
