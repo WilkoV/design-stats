@@ -6,7 +6,7 @@ const { version } = require("../package.json");
 const process = require("process");
 const commander = require("commander");
 const testCommand = require("../lib/commands/test-command");
-const mergeSitesCommand = require("../lib/commands/merge-sites");
+const mergeSitesCommand = require("../lib/commands/merge-sites-command");
 
 /**
  * Configure the run command
