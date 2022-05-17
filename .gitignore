@@ -103,8 +103,5 @@ dist
 # TernJS port file
 .tern-port
 
-# exclude configuration files
-/config
-
 # exclude the data directory
 /data

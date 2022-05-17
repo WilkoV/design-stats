@@ -13,7 +13,6 @@ Collects statistical data from 3d printing sites like Thingiverse, Cults3d or Pr
     - [List all commands](#list-all-commands)
     - [Get help for a specific command](#get-help-for-a-specific-command)
     - [ds test command](#ds-test-command)
-    - [ds merge-sites command](#ds-merge-sites-command)
 
 ## Installation
 
@@ -61,10 +60,44 @@ DS_CULTS_TEST_ID=<your-cults3d-design-id>
 # Printable configuration
 #
 
-# Printable user id. Goto your about page and copy the id from it. The pattern is: https://www.printables.com/social/<your_user_id>/about
+# Printable user id. Goto your about page and copy the id from it. 
+# The pattern is: https://www.printables.com/social/<your_user_id>/about
 DS_PRINTABLE_USER_ID=<your-printable-user-id>
 # Design on Printable that could be used by the test command
 DS_PRINTABLE_TEST_ID=<your-printable-design-id>
+
+#
+# PostgreSQL database configuration
+#
+
+# Name of the host that serves the PostgresSQL database
+DS_POSTGRES_HOST=localhost
+# Port of the host that serves the postgresql database
+DS_POSTGRES_PORT=5432
+# Connection user for the PostgresSQL database
+DS_POSTGRES_USER=ds
+# Password for the PostgresSQL database
+DS_POSTGRES_PASSWORD=<your-postgres-password>
+# Name of the database
+DS_POSTGRES_DB=ds_db
+# Connection timeout in milliseconds
+DS_POSTGRES_DB_CONNECTION_TIMEOUT=30000
+# Idle timeout in milliseconds
+DS_POSTGRES_DB_IDLE_TIMEOUT=60000
+# Minimum number of connections in the pool
+DS_POSTGRES_DB_MIN_CONNECTIONS=0
+# Maximum number of connections in the pool
+DS_POSTGRES_DB_MAX_CONNECTIONS=10
+
+#
+# pgAdmin / PostgreSQL database UI configuration
+#
+
+# pgAdmin username
+DS_PGADMIN_DEFAULT_EMAIL=<your-pg-admin-email>
+# pgAdmin password
+DS_PGADMIN_DEFAULT_PASSWORD=<your-pg-admin-password>
+DS_PGADMIN_DEFAULT_PORT=5050
 ```
 
 ### Install design-stats (ds)
@@ -140,7 +173,8 @@ Usage: ds test [options] [connectionType]
 Test connections to the database and 3d printing sites
 
 Arguments:
-  connectionType             Type of connection to test (choices: "thingiverse-api-details", "thingiverse-api-list", "cults3d-details", "cults3d-list", "printable-details", "printable-list", "all", default: "all")
+  connectionType             Type of connection to test (choices: "thingiverse-api-details", "thingiverse-api-list", "cults3d-details", "cults3d-list",
+                             "printable-details", "printable-list", "db", "db-tables", "all", default: "all")
 
 Options:
   -c, --config <configFile>  config file path (default: "config/.env")
@@ -150,10 +184,6 @@ Options:
 ### ds test command
 
 `ds test` tests the connections to the database and the 3d printing sites used by design-stats. It can be used to test the configuration file or to quickly verify that the basic api and web scraping functions are working. By default the command uses the configuration file `config/.env`. This can be changed with the "-c" or "--config" option.
-
-```bash
-
-```bash
 
 ```bash
 # test all connections
@@ -169,6 +199,9 @@ $ ds test
 ✔ Cults3d test connection for lists successful: Found 165 designs. First design: {"title":"Banana 02","source":"Cults3d","source_id":"banana-02-wilko"}
 ✔ Printable test connection for details successful: {"source":"Printable","source_id":"135167-banana-01","title":"Banana 01","downloads":"22","likes":"4"}
 ✔ Printable test connection for lists successful: Found 165 designs. First design: {"title":"Stand for Santa Sleigh & Reindeer Christmas Decoration","source":"Printable","source_id":"184313-stand-for-santa-sleigh-reindeer-christmas-decorati"}
+✔ Database table designs successfully tested with 0 entries
+✔ Database table sources successfully tested with 0 entries
+
 ```
 
 To test a specific connection the connection type can be added to the command. Valid connection types are:
@@ -179,6 +212,8 @@ To test a specific connection the connection type can be added to the command. V
 - `cults3d-list`: test the connection to the Cults 3d web site and scrape the list of user's designs
 - `printable-details`: test the connection to the Cults 3d web site and scrape the details of a specific design
 - `printable-list`: test the connection to the Cults 3d web site and scrape the list of user's designs
+- `db`: test the connection to the database and get the list of all designs
+- `db-tables`: test the connection to the database and get the number of entries of all tables
 - `all`: test all connections
 
 ```bash
@@ -192,26 +227,27 @@ $ ds test thingiverse-api-details
 ✔ Thingiverse test connection successful: {"id":5249332,"title":"Banana 01","downloads":123,"likes":13}
 ```
 
-### ds merge-sites command
-
-`ds merge-sites` merges user's designs from the 3d printing sites by title and writes the result into a file. Assuming the default base director is used it will create up t four files:
-
-- data/export/merged-sites.json
-- data/error/thingiverse-list.json
-- data/error/cults3d-list.json
-- data/error/printable-list.json
-
- By default the command uses the configuration file `config/.env`. This can be changed with the "-c" or "--config" option. The base directory `data` can be changed with the "-b" or "--baseDirectory" option. The command will still create the subdirectories `export` and `error` in the base directory.
-
-```bash
-ds merge-sites
-```
+**Note: The command has to be run in an environment with an active display, because it will open a browser window to get the list of designs from Printable and Cults3d. In a headless environment the command will not work and produce an output like this:**
 
 ```txt
-# output:
 ✔ Configuration loaded
-✔ User's Thingiverse designs loaded. Found 165 designs
-✔ Designs from Cults3d loaded. Found 165 designs
-✔ Designs from Printable loaded. Found 165 designs
-✔ 165 merged designs written to file data\export\merged-sites.json
+✔ Thingiverse test connection for details successful: {"source":"Thingiverse","source_id":5249332,"title":"Banana 01","downloads":127,"likes":13}
+✔ Thingiverse test connection for lists successful: Found 165 designs. First design: {"title":"Banana 02","source":"Thingiverse","source_id":5250995}
+✔ Cults3d test connection for details successful: {"source":"Cults3d","source_id":"carafe-01","title":"Carafe 01","downloads":"14","likes":"4"}
+✖ Cults3d test connection for lists failed: Error: Failed to launch the browser process!
+[20696:20696:0515/124403.678533:ERROR:ozone_platform_x11.cc(247)] Missing X server or $DISPLAY
+[20696:20696:0515/124403.678589:ERROR:env.cc(226)] The platform failed to initialize.  Exiting.
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+
+✔ Printable test connection for details successful: {"source":"Printable","source_id":"135167-banana-01","title":"Banana 01","downloads":"23","likes":"4"}
+✖ Printable test connection for lists failed: Error: Failed to launch the browser process!
+[20792:20792:0515/124407.563645:ERROR:ozone_platform_x11.cc(247)] Missing X server or $DISPLAY
+[20792:20792:0515/124407.563677:ERROR:env.cc(226)] The platform failed to initialize.  Exiting.
+
+
+TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
+✔ Database table designs successfully tested with 0 entries
+✔ Database table sources successfully tested with 0 entries
 ```
