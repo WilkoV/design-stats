@@ -1,0 +1,44 @@
+[
+    {
+        "title": "Banana 02",
+        "sources": [
+            {
+                "source": "Cults3d",
+                "source_id": "banana-02-wilko"
+            },
+            {
+                "source": "Printable",
+                "source_id": "135575-banana-02"
+            },
+            {
+                "source": "Thingiverse",
+                "source_id": 5250995
+            }
+        ]
+    },
+    {
+        "title": "Woodturning Vase 07",
+        "sources": [
+            {
+                "source": "Cults3d",
+                "source_id": "woodturning-vase-07"
+            },
+            {
+                "source": "Printable",
+                "source_id": "118063-woodturning-vase-07"
+            },
+            {
+                "source": "Thingiverse",
+                "source_id": "forced-wrong-thingiverse-id"
+            },
+            {
+                "source": "bla bla bla",
+                "source_id": "forced-wrong-thingiverse-id"
+            }
+        ]
+    },
+    {
+        "title": "Woodturning Vase 06",
+        "sources": []
+    }
+]
