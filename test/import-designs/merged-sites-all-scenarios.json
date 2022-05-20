@@ -7,7 +7,7 @@
                 "source_id": "banana-02-wilko"
             },
             {
-                "source": "Printable",
+                "source": "Printables",
                 "source_id": "135575-banana-02"
             },
             {
@@ -20,7 +20,7 @@
         "title": "Banana 01",
         "sources": [
             {
-                "source": "Printable",
+                "source": "Printables",
                 "source_id": "135167-banana-01"
             },
             {
@@ -50,7 +50,7 @@
                 "source_id": "knob-with-knurling"
             },
             {
-                "source": "Printable",
+                "source": "Printables",
                 "source_id": "121674-knob-with-knurling"
             }
         ]
@@ -63,7 +63,7 @@
                 "source_id": "forced-wrong-cults-id"
             },
             {
-                "source": "Printable",
+                "source": "Printables",
                 "source_id": "119477-woodturning-bowl-09"
             },
             {
@@ -80,7 +80,7 @@
                 "source_id": "woodturning-vase-08"
             },
             {
-                "source": "Printable",
+                "source": "Printables",
                 "source_id": "forced-wrong-printable-id"
             },
             {
@@ -97,7 +97,7 @@
                 "source_id": "woodturning-vase-07"
             },
             {
-                "source": "Printable",
+                "source": "Printables",
                 "source_id": "118063-woodturning-vase-07"
             },
             {
@@ -126,7 +126,7 @@
                 "processingStatus": "merged"
             },
             {
-                "source": "Printable",
+                "source": "Printables",
                 "source_id": "116155-woodturning-bowl-07",
                 "processingStatus": "merged"
             },
