@@ -1,2 +1,0 @@
--- truncate all designs and constraint tables
--- truncate designs RESTART IDENTITY cascade

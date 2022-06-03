@@ -1,0 +1,9 @@
+-- truncate all tables
+
+-- TRUNCATE TABLE designs RESTART IDENTITY CASCADE;
+
+-- TRUNCATE TABLE imports CASCADE;
+-- TRUNCATE TABLE daily_statistics CASCADE;
+-- TRUNCATE TABLE statistics CASCADE;
+
+-- TRUNCATE TABLE versions RESTART IDENTITY CASCADE;
