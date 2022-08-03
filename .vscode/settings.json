@@ -6,6 +6,7 @@
         "dpage",
         "dprinting",
         "dumpall",
+        "grafana",
         "ILIKE",
         "initdb",
         "innerpot",

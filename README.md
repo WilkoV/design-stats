@@ -11,22 +11,40 @@ Collects statistical data from 3d printing sites like Thingiverse, Cults3d or Pr
   - [2.1. ds help](#21-ds-help)
     - [2.1.1. List all commands](#211-list-all-commands)
     - [2.1.2. Get help for a specific command](#212-get-help-for-a-specific-command)
-  - [2.2. ds merge-sites command](#22-ds-merge-sites-command)
-    - [2.2.1. Merge-sites command options](#221-merge-sites-command-options)
-    - [2.2.2. Execute the merge-sites command](#222-execute-the-merge-sites-command)
-  - [2.3. ds import-designs](#23-ds-import-designs)
-    - [2.3.1. ds import-designs options](#231-ds-import-designs-options)
-    - [2.3.2. Import-designs command options](#232-import-designs-command-options)
-    - [2.3.3. Execute the import-designs command (default scenario)](#233-execute-the-import-designs-command-default-scenario)
-  - [2.4. ds update-statistics command](#24-ds-update-statistics-command)
-    - [2.4.1. Execute the update-statistics command (default scenario)](#241-execute-the-update-statistics-command-default-scenario)
-    - [2.4.2. Execute the update-statistics command with adjusted date](#242-execute-the-update-statistics-command-with-adjusted-date)
-    - [2.4.3. Execute the update-statistics command for one design and source](#243-execute-the-update-statistics-command-for-one-design-and-source)
-    - [2.4.4. Execute the update-statistics command for one source](#244-execute-the-update-statistics-command-for-one-source)
-    - [2.4.5. ds update-statistics options](#245-ds-update-statistics-options)
-  - [2.5. ds test command](#25-ds-test-command)
-    - [2.5.1. Execute all tests](#251-execute-all-tests)
-    - [2.5.2. Execute specific tests](#252-execute-specific-tests)
+  - [2.2. ds mergeSites command](#22-ds-mergesites-command)
+    - [2.2.1. mergeSites command options](#221-mergesites-command-options)
+    - [2.2.2. Execute the mergeSites command](#222-execute-the-mergesites-command)
+  - [2.3. ds importDesigns](#23-ds-importdesigns)
+    - [2.3.1. ds importDesigns options](#231-ds-importdesigns-options)
+    - [2.3.2. importDesigns command options](#232-importdesigns-command-options)
+    - [2.3.3. Execute the importDesigns command (default scenario)](#233-execute-the-importdesigns-command-default-scenario)
+  - [2.4. ds updateStatistics command](#24-ds-updatestatistics-command)
+    - [2.4.1. Execute the updateStatistics command (default scenario)](#241-execute-the-updatestatistics-command-default-scenario)
+    - [2.4.2. Execute the updateStatistics command with adjusted date](#242-execute-the-updatestatistics-command-with-adjusted-date)
+    - [2.4.3. Execute the updateStatistics command for one design and source](#243-execute-the-updatestatistics-command-for-one-design-and-source)
+    - [2.4.4. Execute the updateStatistics command for one source](#244-execute-the-updatestatistics-command-for-one-source)
+    - [2.4.5. ds updateStatistics options](#245-ds-updatestatistics-options)
+  - [2.5. ds show command](#25-ds-show-command)
+    - [2.5.1. Execute ds show designs](#251-execute-ds-show-designs)
+    - [2.5.2. Execute ds show designSources](#252-execute-ds-show-designsources)
+    - [2.5.3. Execute ds show dailySums](#253-execute-ds-show-dailysums)
+    - [2.5.4. Execute ds show monthlySums](#254-execute-ds-show-monthlysums)
+    - [2.5.5. Execute ds show yearlySums](#255-execute-ds-show-yearlysums)
+    - [2.5.6. Execute ds show totalSums](#256-execute-ds-show-totalsums)
+    - [2.5.7. Execute ds show designDaily](#257-execute-ds-show-designdaily)
+    - [2.5.8. Execute ds show  designMonthlySums](#258-execute-ds-show--designmonthlysums)
+    - [2.5.9. Execute ds show designYearlySums](#259-execute-ds-show-designyearlysums)
+    - [2.5.10. Execute ds show designTotal](#2510-execute-ds-show-designtotal)
+    - [2.5.11. Execute ds show compareDailyDesignDownloads](#2511-execute-ds-show-comparedailydesigndownloads)
+    - [2.5.12. Execute ds show compareMonthlyDesignDownloads](#2512-execute-ds-show-comparemonthlydesigndownloads)
+    - [2.5.13. Execute ds show compareYearlyDesignDownloads](#2513-execute-ds-show-compareyearlydesigndownloads)
+    - [2.5.14. Execute ds show compareTotalDesignDownloads](#2514-execute-ds-show-comparetotaldesigndownloads)
+    - [2.5.15. Execute ds show designStatistics](#2515-execute-ds-show-designstatistics)
+    - [2.5.16. Execute ds show sourceStatistics](#2516-execute-ds-show-sourcestatistics)
+    - [2.5.17. ds show options](#2517-ds-show-options)
+  - [2.6. ds test command](#26-ds-test-command)
+    - [2.6.1. Execute all tests](#261-execute-all-tests)
+    - [2.6.2. Execute specific tests](#262-execute-specific-tests)
 
 ## 1. Installation
 
@@ -87,8 +105,8 @@ Options:
 
 Commands:
   test [options] [connectionType]        Test connections to the database and 3d printing sites
-  merge-sites [options]                  Get list of user's Thingiverse designs and match them with designs from cults3d and printable
-  import-designs [options] [importFile]  Import design configurations for Thingiverse, cults3d and printable
+  mergeSites [options]                  Get list of user's Thingiverse designs and match them with designs from cults3d and printable
+  importDesigns [options] [importFile]  Import design configurations for Thingiverse, cults3d and printable
   help [command]                         display help for command
 ```
 
@@ -114,26 +132,26 @@ Options:
   -h, --help                 display help for command
 ```
 
-### 2.2. ds merge-sites command
+### 2.2. ds mergeSites command
 
-`ds merge-sites` collects the designs from a user from the 3d printing sites and merges them into one file by title. Assuming the default base director is used it will create up t four files:
+`ds mergeSites` collects the designs from a user from the 3d printing sites and merges them into one file by title. Assuming the default base director is used it will create up t four files:
 
 - data/export/merged-sites.json
 - data/error/thingiverse-list.json
 - data/error/cults3d-list.json
 - data/error/printable-list.json
 
-#### 2.2.1. Merge-sites command options
+#### 2.2.1. mergeSites command options
 
 The command has the following options:
 
 - `-c, --config \<configFile\>` By default the command uses the configuration file `config/.env`. This option allows to specify a different configuration file in a different location.
 - `-b, --baseDirectory \<baseDirectory\>` By default all exports are written to the base directory `data`. Depending on the content files are written to specific subdirectories. `export` for the merged sources and `error` for failed merges. This option allows to specify a different base directory.
 
-#### 2.2.2. Execute the merge-sites command
+#### 2.2.2. Execute the mergeSites command
 
 ```bash
-ds merge-sites
+ds mergeSites
 
 # output:
 ✔ Configuration loaded
@@ -163,29 +181,29 @@ Error: Failed to launch the browser process!
 TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troubleshooting.md
 ```
 
-### 2.3. ds import-designs
+### 2.3. ds importDesigns
 
-`ds import-designs` imports the designs from the merge-sites file into the database. The command will create a new entry in the database for each design and for each source. Additionally imported and failed sources will be written to the base directory.Assuming the default base director is used it will create up t four files:
+`ds importDesigns` imports the designs from the mergeSites file into the database. The command will create a new entry in the database for each design and for each source. Additionally imported and failed sources will be written to the base directory.Assuming the default base director is used it will create up t four files:
 
-- data/export/import-designs.json
-- data/error/failed-import-designs.json.json
+- data/export/importDesigns.json
+- data/error/failed-importDesigns.json.json
 
-#### 2.3.1. ds import-designs options
+#### 2.3.1. ds importDesigns options
 
-#### 2.3.2. Import-designs command options
+#### 2.3.2. importDesigns command options
 
 The command has the following options:
 
 - `-c, --config \<configFile\>` By default the command uses the configuration file `config/.env`. This option allows to specify a different configuration file in a different location.
 - `-b, --baseDirectory \<baseDirectory\>`  By default all exports are written to the base directory `data`. Depending on the content files are written to specific subdirectories. `export` for the imported designs and sources and `error` for failed imports. This option allows it to specify a different base directory.
-- `-m, --verify-merged` By default sources with the processing status `merged` are not verified because the assumption is, that they're generated by the merge-sites command. So by default those are excluded. By setting this option the processing status `merged`will be ignored and they're treated like manually added entries.
-- `-f, --overwrite-failed` Same behavior as for the `--verify-merged` option but for processing status `FAILED*`. This is useful if an error file is used for imports.
+- `-m, --verifyMerged` By default sources with the processing status `merged` are not verified because the assumption is, that they're generated by the mergeSites command. So by default those are excluded. By setting this option the processing status `merged`will be ignored and they're treated like manually added entries.
+- `-f, --overwriteFailed` Same behavior as for the `--verifyMerged` option but for processing status `FAILED*`. This is useful if an error file is used for imports.
 
-#### 2.3.3. Execute the import-designs command (default scenario)
+#### 2.3.3. Execute the importDesigns command (default scenario)
 
 ```bash
 
-$ ds import-designs
+$ ds importDesigns
 
 # output:
 ✔ Configuration loaded
@@ -198,12 +216,12 @@ $ ds import-designs
 ✔ 165/165: Imported Raspberry Pi3  Model B Case from Cults3d
 ✔ 165/165: Imported Raspberry Pi3  Model B Case from Printable
 ✔ 165/165: Imported Raspberry Pi3  Model B Case from Thingiverse
-✔ 165 imported designs written to file data/export/import-designs.json
+✔ 165 imported designs written to file data/export/importDesigns.json
 ```
 
-### 2.4. ds update-statistics command
+### 2.4. ds updateStatistics command
 
-`ds update-statistics` updates the statistics for all configured designs from all sources in the database. It performs following steps per design / source:
+`ds updateStatistics` updates the statistics for all configured designs from all sources in the database. It performs following steps per design / source:
 
 - get the totals for downloads, likes, views, makes, remixes, comments, collections from the 3d printing sites:
 - calculate the daily and periodical data
@@ -212,10 +230,10 @@ $ ds import-designs
   - daily_statistics: This table contains the daily data points. 1 row per day / design / source.
   - statistics: This table contains the periodical data points. 1 row per year / day / design / source / data point.
 
-#### 2.4.1. Execute the update-statistics command (default scenario)
+#### 2.4.1. Execute the updateStatistics command (default scenario)
 
 ```bash
-$ ds update-statistics
+$ ds updateStatistics
 
 # output:
 ✔ importDate is set to 2022-06-03
@@ -237,23 +255,23 @@ $ ds update-statistics
 
 TODO: Add output
 
-#### 2.4.2. Execute the update-statistics command with adjusted date
+#### 2.4.2. Execute the updateStatistics command with adjusted date
 
 ```bash
-$ ds update-statistics --date 2022-06-02
+$ ds updateStatistics --date 2022/06/02
 
 # output:
-✔ importDate is set to 2022-06-02
+✔ importDate is set to 2022/06/02
 ✔ Configuration loaded
 ✔ Schema version is correct
 ✔ Got 498 sources
 ...
 ```
 
-#### 2.4.3. Execute the update-statistics command for one design and source
+#### 2.4.3. Execute the updateStatistics command for one design and source
 
 ```bash
-$ ds update-statistics --designId 86 --source Printables
+$ ds updateStatistics --designId 86 --source Printables
 
 # output:
 ✔ importDate is set to 2022-06-03
@@ -265,10 +283,10 @@ $ ds update-statistics --designId 86 --source Printables
 ✔ 1/1: Stackable Planter (110mm) from Printables processed
 ```
 
-#### 2.4.4. Execute the update-statistics command for one source
+#### 2.4.4. Execute the updateStatistics command for one source
 
 ```bash
-$ ds update-statistics --source Printables
+$ ds updateStatistics --source Printables
 
 # output:
 ✔ importDate is set to 2022-06-03
@@ -281,18 +299,112 @@ $ ds update-statistics --source Printables
 ...
 ```
 
-#### 2.4.5. ds update-statistics options
+#### 2.4.5. ds updateStatistics options
 
 - `-c, --config \<configFile\>` By default the command uses the configuration file `config/.env`. This option allows to specify a different configuration file in a different location.
-- `-i, --importDate <importDate>` By default the command uses the current date. This option allows to specify a different date that is used during the update process. The date has to be in the format `YYYY-MM-DD`.
+- `-i, --importDate <importDate>` By default the command uses the current date. This option allows to specify a different date that is used during the update process. The date has to be in the format `YYYY/MM/DD`.
 - `-d, --design <designId>` By default the command updates all designs. This option allows to specify the database ID of a single design that is updated. A design can have multiple sources. To update a single source use the `--source` option.
 - `-s, --source <sourceType>` By default the command updates all sources. This option allows to specify a single source that is updated. Valid sources are: `Cults3d`, `Printables`, `Thingiverse`. To update a single design use the `--design` option.
 
-### 2.5. ds test command
+### 2.5. ds show command
+
+TODO: insert example
+
+#### 2.5.1. Execute ds show designs
+
+TODO: insert example
+
+#### 2.5.2. Execute ds show designSources
+
+TODO: insert example
+
+#### 2.5.3. Execute ds show dailySums
+
+TODO: insert example
+
+#### 2.5.4. Execute ds show monthlySums
+
+TODO: insert example
+
+#### 2.5.5. Execute ds show yearlySums
+
+TODO: insert example
+
+#### 2.5.6. Execute ds show totalSums
+
+TODO: insert example
+
+#### 2.5.7. Execute ds show designDaily
+
+TODO: insert example
+
+#### 2.5.8. Execute ds show  designMonthlySums
+
+TODO: insert example
+
+#### 2.5.9. Execute ds show designYearlySums
+
+TODO: insert example
+
+#### 2.5.10. Execute ds show designTotal
+
+TODO: insert example
+
+TODO: insert example
+
+#### 2.5.11. Execute ds show compareDailyDesignDownloads
+
+TODO: insert example
+
+#### 2.5.12. Execute ds show compareMonthlyDesignDownloads
+
+TODO: insert example
+
+#### 2.5.13. Execute ds show compareYearlyDesignDownloads
+
+TODO: insert example
+
+#### 2.5.14. Execute ds show compareTotalDesignDownloads
+
+TODO: insert example
+
+#### 2.5.15. Execute ds show designStatistics
+
+TODO: insert example
+
+#### 2.5.16. Execute ds show sourceStatistics
+
+TODO: insert example
+
+#### 2.5.17. ds show options
+
+|v = argument / h = option|deisginId|title|source|importDate|limit|showZeroRows|statisticsType|
+|---|---|---|---|---|---|---|---|
+|designs|✔|✔| | | | | |
+|designSources|✔|✔|✔| | | | |
+|dailySums| | | ✔ |✔|✔|✔| |
+|monthlySums| | |✔ |✔[^1]|✔|✔| |
+|yearlySums| | |✔|✔[^2]|✔|✔| |
+|totalSums| | |✔||✔|✔| |
+|designDaily|✔|✔|✔|✔|✔|✔| |
+|designMonthlySums|✔|✔|✔|✔[^3]|✔|✔| |
+|designYearlySums|✔|✔|✔|✔[^4]|✔|✔| |
+|designTotal|✔|✔|✔||✔|✔| |
+|compareDailyDesignDownloads|✔|✔|✔|✔|✔|✔||
+|compareMonthlyDesignDownloads|✔|✔|✔|✔[^5]|✔|✔||
+|compareYearlyDesignDownloads|✔|✔|✔|✔[^6]|✔|✔||
+|compareTotalDesignDownloads|✔|✔|✔||✔|✔||
+|designStatistics|✔|✔|✔|✔|✔|✔|✔|
+|sourceStatistics| | |✔||✔|✔|✔|
+
+TODO: Add description for each option
+TODO: Add warning that unsupported options are ignored with a warning message
+
+### 2.6. ds test command
 
 `ds test` tests the connections to the database and the 3d printing sites used by design-stats. It can be used to test the configuration file or to quickly verify that the basic api and web scraping functions are working. By default the command uses the configuration file `config/.env`. This can be changed with the "-c" or "--config" option.
 
-#### 2.5.1. Execute all tests
+#### 2.6.1. Execute all tests
 
 ```bash
 # test all connections
@@ -347,7 +459,7 @@ TROUBLESHOOTING: https://github.com/puppeteer/puppeteer/blob/main/docs/troublesh
 ✔ Database table statistics successfully tested with 6972 entries
 ```
 
-#### 2.5.2. Execute specific tests
+#### 2.6.2. Execute specific tests
 
 To test a specific connection the connection type can be added to the command. Valid connection types are:
 
@@ -368,3 +480,15 @@ $ ds test thingiverse-api-details
 ✔ Configuration loaded
 ✔ Thingiverse test connection successful: {"id":5249332,"title":"Banana 01","downloads":123,"likes":13}
 ```
+
+[^1]: Extracts year and month from the import date.
+
+[^2]: Extracts year from the import date.
+
+[^3]: Extracts year and month from the import date.
+
+[^4]: Extracts year from the import date.
+
+[^5]: Extracts year and month from the import date.
+
+[^6]: Extracts year from the import date.

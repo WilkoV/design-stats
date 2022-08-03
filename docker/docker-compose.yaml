@@ -2,8 +2,8 @@ version: '3.1'
 
 services:
   ds-db-service:
-    image: 'postgres:latest'
     container_name: ds-db
+    image: 'postgres:latest'
     ports:
       - "5432:5432"
     volumes:
@@ -24,3 +24,16 @@ services:
       PGADMIN_DEFAULT_PASSWORD: $DS_PGADMIN_DEFAULT_PASSWORD
     volumes:
       - ../data/pgadmin-data/:/var/lib/pgadmin
+
+  ds-grafana:
+    container_name: ds-grafana
+    image: grafana/grafana:8.2.6
+    ports:
+      - 3000:3000
+    volumes:
+      - ../data/grafana-data:/var/lib/grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: $DS_GRAFANA_PASSWORD
+
+volumes:
+  grafana-data:
