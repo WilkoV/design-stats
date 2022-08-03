@@ -28,7 +28,9 @@
     "eslint": "^8.15.0"
   },
   "dependencies": {
+    "columnify": "^1.6.0",
     "commander": "^9.2.0",
+    "csv": "^6.1.0",
     "dotenv": "^16.0.1",
     "node-fetch": "^2.6.7",
     "ora": "^5.4.1",

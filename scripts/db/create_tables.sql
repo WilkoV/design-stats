@@ -109,26 +109,67 @@ CREATE TABLE public.designs (
 ALTER TABLE public.designs OWNER TO ds;
 
 --
--- Name: design_id_seq; Type: SEQUENCE; Schema: public; Owner: ds
+-- Name: compare_daily_design_downloads; Type: VIEW; Schema: public; Owner: ds
 --
 
-CREATE SEQUENCE public.design_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+CREATE VIEW public.compare_daily_design_downloads AS
+ SELECT to_char((t.import_date)::timestamp with time zone, 'YYYY/MM/DD'::text) AS import_date,
+    d.id AS design_id,
+    d.title,
+    t.downloads AS thingiverse_downloads,
+    c.downloads AS cults3d_downloads,
+    p.downloads AS printables_downloads
+   FROM (((public.daily_statistics t
+     JOIN public.daily_statistics c ON (((t.design_id = c.design_id) AND (t.import_date = c.import_date) AND (c.source = 'Cults3d'::public.sources_type))))
+     JOIN public.daily_statistics p ON (((t.design_id = p.design_id) AND (t.import_date = p.import_date) AND (p.source = 'Printables'::public.sources_type))))
+     JOIN public.designs d ON ((t.design_id = d.id)))
+  WHERE (t.source = 'Thingiverse'::public.sources_type)
+UNION
+ SELECT to_char((t.import_date)::timestamp with time zone, 'YYYY/MM/DD'::text) AS import_date,
+    d.id AS design_id,
+    d.title,
+    t.downloads AS thingiverse_downloads,
+    c.downloads AS cults3d_downloads,
+    p.downloads AS printables_downloads
+   FROM (((public.daily_statistics c
+     JOIN public.daily_statistics t ON (((t.design_id = c.design_id) AND (t.import_date = c.import_date) AND (t.source = 'Thingiverse'::public.sources_type))))
+     JOIN public.daily_statistics p ON (((c.design_id = p.design_id) AND (c.import_date = p.import_date) AND (p.source = 'Printables'::public.sources_type))))
+     JOIN public.designs d ON ((t.design_id = d.id)))
+  WHERE (c.source = 'Cults3d'::public.sources_type)
+UNION
+ SELECT to_char((t.import_date)::timestamp with time zone, 'YYYY/MM/DD'::text) AS import_date,
+    d.id AS design_id,
+    d.title,
+    t.downloads AS thingiverse_downloads,
+    c.downloads AS cults3d_downloads,
+    p.downloads AS printables_downloads
+   FROM (((public.daily_statistics p
+     JOIN public.daily_statistics c ON (((p.design_id = c.design_id) AND (p.import_date = c.import_date) AND (c.source = 'Cults3d'::public.sources_type))))
+     JOIN public.daily_statistics t ON (((t.design_id = p.design_id) AND (t.import_date = p.import_date) AND (t.source = 'Thingiverse'::public.sources_type))))
+     JOIN public.designs d ON ((t.design_id = d.id)))
+  WHERE (p.source = 'Printables'::public.sources_type)
+  ORDER BY 1, 2;
 
 
-ALTER TABLE public.design_id_seq OWNER TO ds;
+ALTER TABLE public.compare_daily_design_downloads OWNER TO ds;
 
 --
--- Name: design_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ds
+-- Name: compare_monthly_design_downloads; Type: VIEW; Schema: public; Owner: ds
 --
 
-ALTER SEQUENCE public.design_id_seq OWNED BY public.designs.id;
+CREATE VIEW public.compare_monthly_design_downloads AS
+ SELECT to_char((compare_daily_design_downloads.import_date)::timestamp with time zone, 'YYYY/MM'::text) AS import_date,
+    compare_daily_design_downloads.design_id,
+    compare_daily_design_downloads.title,
+    sum(compare_daily_design_downloads.thingiverse_downloads) AS thingiverse_downloads,
+    sum(compare_daily_design_downloads.cults3d_downloads) AS cults3d_downloads,
+    sum(compare_daily_design_downloads.printables_downloads) AS printables_downloads
+   FROM public.compare_daily_design_downloads
+  GROUP BY (to_char((compare_daily_design_downloads.import_date)::timestamp with time zone, 'YYYY/MM'::text)), compare_daily_design_downloads.design_id, compare_daily_design_downloads.title
+  ORDER BY (to_char((compare_daily_design_downloads.import_date)::timestamp with time zone, 'YYYY/MM'::text)), compare_daily_design_downloads.design_id, compare_daily_design_downloads.title;
 
+
+ALTER TABLE public.compare_monthly_design_downloads OWNER TO ds;
 
 --
 -- Name: imports; Type: TABLE; Schema: public; Owner: ds
@@ -152,17 +193,136 @@ CREATE TABLE public.imports (
 ALTER TABLE public.imports OWNER TO ds;
 
 --
--- Name: sources; Type: TABLE; Schema: public; Owner: ds
+-- Name: compare_total_design_downloads; Type: VIEW; Schema: public; Owner: ds
 --
 
-CREATE TABLE public.sources (
-    design_id integer NOT NULL,
-    source public.sources_type NOT NULL,
-    source_id character varying(120) NOT NULL
-);
+CREATE VIEW public.compare_total_design_downloads AS
+ SELECT to_char((t.import_date)::timestamp with time zone, 'YYYY/MM/DD'::text) AS import_date,
+    d.id AS design_id,
+    d.title,
+    t.downloads AS thingiverse_downloads,
+    c.downloads AS cults3d_downloads,
+    p.downloads AS printables_downloads
+   FROM (((public.imports t
+     JOIN public.imports c ON (((t.design_id = c.design_id) AND (t.import_date = c.import_date) AND (c.source = 'Cults3d'::public.sources_type))))
+     JOIN public.imports p ON (((t.design_id = p.design_id) AND (t.import_date = p.import_date) AND (p.source = 'Printables'::public.sources_type))))
+     JOIN public.designs d ON ((t.design_id = d.id)))
+  WHERE ((t.source = 'Thingiverse'::public.sources_type) AND (t.import_date = ( SELECT max(imports.import_date) AS max
+           FROM public.imports)))
+UNION
+ SELECT to_char((t.import_date)::timestamp with time zone, 'YYYY/MM/DD'::text) AS import_date,
+    d.id AS design_id,
+    d.title,
+    t.downloads AS thingiverse_downloads,
+    c.downloads AS cults3d_downloads,
+    p.downloads AS printables_downloads
+   FROM (((public.imports c
+     JOIN public.imports t ON (((t.design_id = c.design_id) AND (t.import_date = c.import_date) AND (t.source = 'Thingiverse'::public.sources_type))))
+     JOIN public.imports p ON (((c.design_id = p.design_id) AND (c.import_date = p.import_date) AND (p.source = 'Printables'::public.sources_type))))
+     JOIN public.designs d ON ((t.design_id = d.id)))
+  WHERE ((c.source = 'Cults3d'::public.sources_type) AND (c.import_date = ( SELECT max(imports.import_date) AS max
+           FROM public.imports)))
+UNION
+ SELECT to_char((t.import_date)::timestamp with time zone, 'YYYY/MM/DD'::text) AS import_date,
+    d.id AS design_id,
+    d.title,
+    t.downloads AS thingiverse_downloads,
+    c.downloads AS cults3d_downloads,
+    p.downloads AS printables_downloads
+   FROM (((public.imports p
+     JOIN public.imports c ON (((p.design_id = c.design_id) AND (p.import_date = c.import_date) AND (c.source = 'Cults3d'::public.sources_type))))
+     JOIN public.imports t ON (((t.design_id = p.design_id) AND (t.import_date = p.import_date) AND (t.source = 'Thingiverse'::public.sources_type))))
+     JOIN public.designs d ON ((t.design_id = d.id)))
+  WHERE ((p.source = 'Printables'::public.sources_type) AND (p.import_date = ( SELECT max(imports.import_date) AS max
+           FROM public.imports)))
+  ORDER BY 1, 2;
 
 
-ALTER TABLE public.sources OWNER TO ds;
+ALTER TABLE public.compare_total_design_downloads OWNER TO ds;
+
+--
+-- Name: compare_yearly_design_downloads; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.compare_yearly_design_downloads AS
+ SELECT to_char((compare_daily_design_downloads.import_date)::timestamp with time zone, 'YYYY'::text) AS import_date,
+    compare_daily_design_downloads.design_id,
+    compare_daily_design_downloads.title,
+    sum(compare_daily_design_downloads.thingiverse_downloads) AS thingiverse_downloads,
+    sum(compare_daily_design_downloads.cults3d_downloads) AS cults3d_downloads,
+    sum(compare_daily_design_downloads.printables_downloads) AS printables_downloads
+   FROM public.compare_daily_design_downloads
+  GROUP BY (to_char((compare_daily_design_downloads.import_date)::timestamp with time zone, 'YYYY'::text)), compare_daily_design_downloads.design_id, compare_daily_design_downloads.title
+  ORDER BY (to_char((compare_daily_design_downloads.import_date)::timestamp with time zone, 'YYYY'::text)), compare_daily_design_downloads.design_id, compare_daily_design_downloads.title;
+
+
+ALTER TABLE public.compare_yearly_design_downloads OWNER TO ds;
+
+--
+-- Name: daily_design_statistics_sums; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.daily_design_statistics_sums AS
+ SELECT to_char((s.import_date)::timestamp with time zone, 'YYYY/MM/DD'::text) AS import_date,
+    s.design_id,
+    d.title,
+    s.source,
+    s.downloads,
+    s.likes,
+    s.views,
+    s.makes,
+    s.remixes,
+    s.comments,
+    s.collections
+   FROM (public.daily_statistics s
+     JOIN public.designs d ON ((s.design_id = d.id)))
+  ORDER BY (to_char((s.import_date)::timestamp with time zone, 'YYYY/MM/DD'::text)), s.design_id, s.source;
+
+
+ALTER TABLE public.daily_design_statistics_sums OWNER TO ds;
+
+--
+-- Name: daily_statistics_sums; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.daily_statistics_sums AS
+ SELECT to_char((daily_statistics.import_date)::timestamp with time zone, 'YYYY/MM/DD'::text) AS import_date,
+    daily_statistics.source,
+    sum(daily_statistics.downloads) AS downloads,
+    sum(daily_statistics.likes) AS likes,
+    sum(daily_statistics.views) AS views,
+    sum(daily_statistics.makes) AS makes,
+    sum(daily_statistics.remixes) AS remixes,
+    sum(daily_statistics.comments) AS comments,
+    sum(daily_statistics.collections) AS collections
+   FROM public.daily_statistics
+  GROUP BY daily_statistics.import_date, daily_statistics.source
+  ORDER BY daily_statistics.import_date, daily_statistics.source;
+
+
+ALTER TABLE public.daily_statistics_sums OWNER TO ds;
+
+--
+-- Name: design_id_seq; Type: SEQUENCE; Schema: public; Owner: ds
+--
+
+CREATE SEQUENCE public.design_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.design_id_seq OWNER TO ds;
+
+--
+-- Name: design_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ds
+--
+
+ALTER SEQUENCE public.design_id_seq OWNED BY public.designs.id;
+
 
 --
 -- Name: statistics; Type: TABLE; Schema: public; Owner: ds
@@ -187,6 +347,159 @@ CREATE TABLE public.statistics (
 ALTER TABLE public.statistics OWNER TO ds;
 
 --
+-- Name: design_statistics; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.design_statistics AS
+ SELECT s.year,
+    s.month,
+    s.design_id,
+    d.title,
+    s.source,
+    s.statistic_type,
+    s.last_1d,
+    s.last_7d,
+    s.last_30d,
+    s.this_month,
+    s.last_365d,
+    s.this_year,
+    s.total
+   FROM (public.statistics s
+     JOIN public.designs d ON ((s.design_id = d.id)))
+  ORDER BY s.year, s.month, s.design_id, s.source, s.statistic_type;
+
+
+ALTER TABLE public.design_statistics OWNER TO ds;
+
+--
+-- Name: monthly_design_statistics_sums; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.monthly_design_statistics_sums AS
+ SELECT to_char((s.import_date)::timestamp with time zone, 'YYYY/MM'::text) AS import_date,
+    s.design_id,
+    d.title,
+    s.source,
+    sum(s.downloads) AS downloads,
+    sum(s.likes) AS likes,
+    sum(s.views) AS views,
+    sum(s.makes) AS makes,
+    sum(s.remixes) AS remixes,
+    sum(s.comments) AS comments,
+    sum(s.collections) AS collections
+   FROM (public.daily_statistics s
+     JOIN public.designs d ON ((s.design_id = d.id)))
+  GROUP BY (to_char((s.import_date)::timestamp with time zone, 'YYYY/MM'::text)), s.design_id, d.title, s.source
+  ORDER BY (to_char((s.import_date)::timestamp with time zone, 'YYYY/MM'::text)), s.design_id, d.title, s.source;
+
+
+ALTER TABLE public.monthly_design_statistics_sums OWNER TO ds;
+
+--
+-- Name: monthly_statistics_sums; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.monthly_statistics_sums AS
+ SELECT to_char((daily_statistics.import_date)::timestamp with time zone, 'YYYY/MM'::text) AS import_date,
+    daily_statistics.source,
+    sum(daily_statistics.downloads) AS downloads,
+    sum(daily_statistics.likes) AS likes,
+    sum(daily_statistics.views) AS views,
+    sum(daily_statistics.makes) AS makes,
+    sum(daily_statistics.remixes) AS remixes,
+    sum(daily_statistics.comments) AS comments,
+    sum(daily_statistics.collections) AS collections
+   FROM public.daily_statistics
+  GROUP BY (to_char((daily_statistics.import_date)::timestamp with time zone, 'YYYY/MM'::text)), daily_statistics.source
+  ORDER BY (to_char((daily_statistics.import_date)::timestamp with time zone, 'YYYY/MM'::text)), daily_statistics.source;
+
+
+ALTER TABLE public.monthly_statistics_sums OWNER TO ds;
+
+--
+-- Name: source_statistics; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.source_statistics AS
+ SELECT s.year,
+    s.month,
+    s.source,
+    s.statistic_type,
+    sum(s.last_1d) AS last_1d,
+    sum(s.last_7d) AS last_7d,
+    sum(s.last_30d) AS last_30d,
+    sum(s.this_month) AS this_month,
+    sum(s.last_365d) AS last_365d,
+    sum(s.this_year) AS this_year,
+    sum(s.total) AS total
+   FROM (public.statistics s
+     JOIN public.designs d ON ((s.design_id = d.id)))
+  GROUP BY s.year, s.month, s.source, s.statistic_type
+  ORDER BY s.year, s.month, s.source, s.statistic_type;
+
+
+ALTER TABLE public.source_statistics OWNER TO ds;
+
+--
+-- Name: sources; Type: TABLE; Schema: public; Owner: ds
+--
+
+CREATE TABLE public.sources (
+    design_id integer NOT NULL,
+    source public.sources_type NOT NULL,
+    source_id character varying(120) NOT NULL
+);
+
+
+ALTER TABLE public.sources OWNER TO ds;
+
+--
+-- Name: total_design_statistics_sums; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.total_design_statistics_sums AS
+ SELECT s.design_id,
+    d.title,
+    s.source,
+    s.downloads,
+    s.likes,
+    s.views,
+    s.makes,
+    s.remixes,
+    s.comments,
+    s.collections
+   FROM (public.imports s
+     JOIN public.designs d ON ((d.id = s.design_id)))
+  WHERE (s.import_date = ( SELECT max(imports_1.import_date) AS max
+           FROM public.imports imports_1))
+  ORDER BY s.design_id;
+
+
+ALTER TABLE public.total_design_statistics_sums OWNER TO ds;
+
+--
+-- Name: total_statistics_sums; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.total_statistics_sums AS
+ SELECT i.source,
+    sum(i.downloads) AS downloads,
+    sum(i.likes) AS likes,
+    sum(i.views) AS views,
+    sum(i.makes) AS makes,
+    sum(i.remixes) AS remixes,
+    sum(i.comments) AS comments,
+    sum(i.collections) AS collections
+   FROM public.imports i
+  WHERE (i.import_date = ( SELECT max(imports_1.import_date) AS max
+           FROM public.imports imports_1))
+  GROUP BY i.source
+  ORDER BY i.source;
+
+
+ALTER TABLE public.total_statistics_sums OWNER TO ds;
+
+--
 -- Name: versions; Type: TABLE; Schema: public; Owner: ds
 --
 
@@ -197,6 +510,51 @@ CREATE TABLE public.versions (
 
 
 ALTER TABLE public.versions OWNER TO ds;
+
+--
+-- Name: yearly_design_statistics_sums; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.yearly_design_statistics_sums AS
+ SELECT to_char((s.import_date)::timestamp with time zone, 'YYYY'::text) AS import_date,
+    s.design_id,
+    d.title,
+    s.source,
+    sum(s.downloads) AS downloads,
+    sum(s.likes) AS likes,
+    sum(s.views) AS views,
+    sum(s.makes) AS makes,
+    sum(s.remixes) AS remixes,
+    sum(s.comments) AS comments,
+    sum(s.collections) AS collections
+   FROM (public.daily_statistics s
+     JOIN public.designs d ON ((s.design_id = d.id)))
+  GROUP BY (to_char((s.import_date)::timestamp with time zone, 'YYYY'::text)), s.design_id, d.title, s.source
+  ORDER BY (to_char((s.import_date)::timestamp with time zone, 'YYYY'::text)), s.design_id, d.title, s.source;
+
+
+ALTER TABLE public.yearly_design_statistics_sums OWNER TO ds;
+
+--
+-- Name: yearly_statistics_sums; Type: VIEW; Schema: public; Owner: ds
+--
+
+CREATE VIEW public.yearly_statistics_sums AS
+ SELECT to_char((daily_statistics.import_date)::timestamp with time zone, 'YYYY'::text) AS import_date,
+    daily_statistics.source,
+    sum(daily_statistics.downloads) AS downloads,
+    sum(daily_statistics.likes) AS likes,
+    sum(daily_statistics.views) AS views,
+    sum(daily_statistics.makes) AS makes,
+    sum(daily_statistics.remixes) AS remixes,
+    sum(daily_statistics.comments) AS comments,
+    sum(daily_statistics.collections) AS collections
+   FROM public.daily_statistics
+  GROUP BY (to_char((daily_statistics.import_date)::timestamp with time zone, 'YYYY'::text)), daily_statistics.source
+  ORDER BY (to_char((daily_statistics.import_date)::timestamp with time zone, 'YYYY'::text)), daily_statistics.source;
+
+
+ALTER TABLE public.yearly_statistics_sums OWNER TO ds;
 
 --
 -- Name: designs id; Type: DEFAULT; Schema: public; Owner: ds
@@ -379,7 +737,6 @@ ALTER TABLE ONLY public.statistics
 --
 -- PostgreSQL database dump complete
 --
-
 
 -- 
 -- Initialize schema version
