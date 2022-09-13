@@ -450,6 +450,8 @@ CREATE TABLE public.sources (
     source_id character varying(120) NOT NULL
 );
 
+ALTER TABLE IF EXISTS public.sources
+    ADD COLUMN inactive boolean DEFAULT false;
 
 ALTER TABLE public.sources OWNER TO ds;
 
