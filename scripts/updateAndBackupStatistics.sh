@@ -6,6 +6,6 @@ cd -
 ./backup.sh
 
 cd ..
-clear
-ds show sourceStatistics --statisticType downloads
+#clear
+ds show sourceStatistics --statisticType downloads --source Printables
 cd -

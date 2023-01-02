@@ -20,3 +20,6 @@ docker exec -t ds-db pg_dump --username "ds" --no-password --format=p --schema-o
 
 # dump all
 docker exec -t ds-db pg_dumpall -c -U ds > ../data/backup/${prefix}/dump.sql
+
+cp ../config/.env ../data/backup/${prefix}/.env
+cp ../data/import/mergedSites.json ../data/backup/${prefix}/mergedSites.json

@@ -105,3 +105,4 @@ dist
 
 # exclude the data directory
 /data
+/scripts/db/helper
