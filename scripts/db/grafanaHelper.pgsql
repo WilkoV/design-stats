@@ -235,5 +235,24 @@ WHERE s.statistic_type = 'downloads'
 AND  s.source = 'Printables'
 AND s.last_30d > 0
 AND s.month = 8
-ORDER BY s.this_month DESC
-LIMIT 30
+ORDER BY s.this_month DESC LIMIT 30
+
+
+SELECT max(import_date) FROM imports
+
+SELECT * FROM imports where design_id = 202 ORDER BY import_date desc, design_id  LIMIT 30
+
+select * from sources where source = 'Cults3d'
+
+
+
+SELECT *
+FROM imports
+WHERE design_id in (139, 142, 156, 157)
+AND source = 'Printables' 
+AND import_date = '2022-10-25'
+
+SELECT count(*)
+FROM imports
+WHERE source = 'Printables' 
+AND import_date = '2022-10-15'
