@@ -10,6 +10,7 @@ const mergeSitesCommand = require("../lib/commands/merge-sites-command");
 const importDesignsCommand = require("../lib/commands/import-designs-command");
 const updateStatisticsCommand = require("../lib/commands/update-statistics-command");
 const showCommand = require("../lib/commands/show-command");
+const recalculateStatisticsCommand = require("../lib/commands/recalculate-statistics-command")
 
 /**
  * Configure the run command
@@ -27,6 +28,7 @@ async function run() {
         .addCommand(mergeSitesCommand.getCommand())
         .addCommand(importDesignsCommand.getCommand())
         .addCommand(updateStatisticsCommand.getCommand())
+        .addCommand(recalculateStatisticsCommand.getCommand())
         .addCommand(showCommand.getCommand());
 
     program.parseAsync(process.argv);

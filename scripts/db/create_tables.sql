@@ -334,11 +334,11 @@ CREATE TABLE public.statistics (
     design_id integer NOT NULL,
     source public.sources_type NOT NULL,
     statistic_type public.statistics_type NOT NULL,
-    last_1d integer NOT NULL,
-    last_7d integer NOT NULL,
-    last_30d integer NOT NULL,
-    this_month integer NOT NULL,
-    last_365d integer NOT NULL,
+    last_1d integer,
+    last_7d integer,
+    last_30d integer,
+    this_month integer,
+    last_365d integer,
     this_year integer NOT NULL,
     total integer NOT NULL
 );
@@ -447,7 +447,8 @@ ALTER TABLE public.source_statistics OWNER TO ds;
 CREATE TABLE public.sources (
     design_id integer NOT NULL,
     source public.sources_type NOT NULL,
-    source_id character varying(120) NOT NULL
+    source_id character varying(120) NOT NULL,
+    createdAd date
 );
 
 ALTER TABLE IF EXISTS public.sources
@@ -745,3 +746,4 @@ ALTER TABLE ONLY public.statistics
 -- 
 
 INSERT INTO public.versions (version_type, value) VALUES ('Schema', 1);
+
