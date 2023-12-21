@@ -182,3 +182,104 @@ select distinct  import_date from daily_statistics where design_id >= 167 order 
 select design_id, views, round(views/1000)*1000 from imports where source = 'Printables' and views >= 1000 order by design_id
 
 select * from imports where design_id = 125 and source = 'Printables' order by import_date desc
+
+SELECT import_date, design_id, source, import_type, downloads, likes, views, makes, remixes, comments, collections                 
+FROM imports                 
+WHERE source = 'Printables'  
+AND design_id = 1                  
+ORDER BY import_date
+LIMIT 400
+
+SELECT source, design_id, date_part('year', import_date) as "year", date_part('month', import_date) as "month", 
+sum(downloads), sum(likes), sum(views), sum(makes), sum(remixes), sum(comments), sum(collections)
+FROM daily_statistics
+WHERE source = 'Printables'
+GROUP BY source, design_id, year, month
+ORDER BY source, design_id, year, month
+
+SELECT source, date_part('year', import_date) as "year", date_part('month', import_date) as "month", 
+sum(downloads), sum(likes), sum(views), sum(makes), sum(remixes), sum(comments), sum(collections)
+FROM daily_statistics
+WHERE source = 'Printables'
+AND import_date > '2022-05-31'
+AND design_Id = 1
+GROUP BY source, year, month
+ORDER BY source, year, month
+
+SELECT source, date_part('year', import_date) as "year", date_part('month', import_date) as "month", 
+sum(downloads), sum(likes), sum(views), sum(makes), sum(remixes), sum(comments), sum(collections)
+FROM daily_statistics
+GROUP BY source, year, month
+ORDER BY source, year, month
+
+SELECT *
+FROM statistics
+WHERE source = 'Printables'
+ORDER BY design_id, year, month
+LIMIT 300
+
+select 'designs' as "topic", count(*) from designs union
+select 'sources' as "topic", count(*) from sources union
+select 'imports' as "topic", count(*) from imports union
+select 'daily_statistics' as "topic", count(*) from daily_statistics union
+select 'statistics' as "topic", count(*) from statistics 
+order by 1
+
+select * from sources
+
+select count(*) from imports;
+
+select * from statistics where design_id = 127 and source = 'Printables' limit 3000
+
+select * from daily_statistics where design_id = 127 and source = 'Printables' limit 3000
+
+select * from daily_statistics where design_id = 1 and source = 'Printables' limit 3000
+
+select * from designs
+
+select * from statistics where design_id = 1 and source = 'Printables' and statistic_type = 'downloads' limit 3000
+
+SELECT * FROM designs WHERE title in (
+  'Woodturning Basket 01',
+'Woodturning Vase 05',
+'Cookie Cutter Bobble Hat (2x4)',
+'Cookie Cutter Heart (4x1)',
+'Vase 10',
+'Sphericon 01 (Hexagon Based)',
+'Bottle Opener (Smart Infill)',
+'RC Fire Monitor 1:15 scale',
+'Bailer 02 (1500 ml)'
+)
+
+SELECT import_date, design_id, source, import_type, downloads, likes, views, makes, remixes, comments, collections 
+FROM imports 
+WHERE source = 'Printables'
+AND design_id = 1
+ORDER BY import_date
+
+
+SELECT import_date, design_id, source, import_type, downloads, likes, views, makes, remixes, comments, collections                 FROM imports                 WHERE  source = 'Printables'  AND design_id = 1                  ORDER BY import_date
+
+SELECT distinct import_date FROM imports WHERE source = 'Printables' ORDER BY import_date DESC LIMIT 30
+
+SELECT 'ds updateStatistics --source Printables -d ' || id FROM designs WHERE title in (
+'ChristmasBauble 04 (Vase Mode)',
+'Sanding wheel, Lamellar Grinder',
+'Pinwheel / Windmill - 6 wings (Garden / Toy)',
+'Kung Fu Panda Planter 01',
+'Can Racer 01',
+'Snowman 03 (SC)',
+'Penguin 03 (SC)'
+ )
+
+select * from designs order by id desc
+
+update designs set title = 'Planter 02 - Embossed (MC)' where id = 236
+
+SELECT * FROM designs where title = 'Ring Vase 01'
+
+select distinct import_date from imports order by import_date desc limit 3000
+
+
+
+select * from designs order by id desc
