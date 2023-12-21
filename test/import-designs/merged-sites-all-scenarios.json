@@ -1,0 +1,140 @@
+[
+    {
+        "title": "Banana 02",
+        "sources": [
+            {
+                "source": "Cults3d",
+                "source_id": "banana-02-wilko"
+            },
+            {
+                "source": "Printables",
+                "source_id": "135575-banana-02"
+            },
+            {
+                "source": "Thingiverse",
+                "source_id": 5250995
+            }
+        ]
+    },
+    {
+        "title": "Banana 01",
+        "sources": [
+            {
+                "source": "Printables",
+                "source_id": "135167-banana-01"
+            },
+            {
+                "source": "Thingiverse",
+                "source_id": 5249332
+            }
+        ]
+    },
+    {
+        "title": "Carafe 01",
+        "sources": [
+            {
+                "source": "Cults3d",
+                "source_id": "carafe-01"
+            },
+            {
+                "source": "Thingiverse",
+                "source_id": 5216220
+            }
+        ]
+    },
+    {
+        "title": "Knob with knurling",
+        "sources": [
+            {
+                "source": "Cults3d",
+                "source_id": "knob-with-knurling"
+            },
+            {
+                "source": "Printables",
+                "source_id": "121674-knob-with-knurling"
+            }
+        ]
+    },
+    {
+        "title": "Woodturning Bowl 09",
+        "sources": [
+            {
+                "source": "Cults3d",
+                "source_id": "forced-wrong-cults-id"
+            },
+            {
+                "source": "Printables",
+                "source_id": "119477-woodturning-bowl-09"
+            },
+            {
+                "source": "Thingiverse",
+                "source_id": 5202273
+            }
+        ]
+    },
+    {
+        "title": "Woodturning Vase 08",
+        "sources": [
+            {
+                "source": "Cults3d",
+                "source_id": "woodturning-vase-08"
+            },
+            {
+                "source": "Printables",
+                "source_id": "forced-wrong-printable-id"
+            },
+            {
+                "source": "Thingiverse",
+                "source_id": 5199477
+            }
+        ]
+    },
+    {
+        "title": "Woodturning Vase 07",
+        "sources": [
+            {
+                "source": "Cults3d",
+                "source_id": "woodturning-vase-07"
+            },
+            {
+                "source": "Printables",
+                "source_id": "118063-woodturning-vase-07"
+            },
+            {
+                "source": "Thingiverse",
+                "source_id": "forced-wrong-thingiverse-id"
+            },
+            {
+                "source": "bla bla bla",
+                "source_id": "forced-wrong-thingiverse-id"
+            }
+        ]
+    },
+    {
+        "title": "Woodturning Vase 06",
+        "sources": []
+    },
+    {
+        "title": "Woodturning Basket 01"
+    },
+    {
+        "title": "Woodturning Bowl 07",
+        "sources": [
+            {
+                "source": "Cults3d",
+                "source_id": "woodturning-bowl-07",
+                "processingStatus": "merged"
+            },
+            {
+                "source": "Printables",
+                "source_id": "116155-woodturning-bowl-07",
+                "processingStatus": "merged"
+            },
+            {
+                "source": "Thingiverse",
+                "source_id": 5193273,
+                "processingStatus": "merged"
+            }
+        ]
+    }
+]
